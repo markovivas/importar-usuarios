@@ -18,11 +18,12 @@ Este projeto contém um script PHP para importar usuários em lote para uma inst
 
 O arquivo CSV deve conter um cabeçalho e as seguintes colunas, separadas por **ponto e vírgula (;)**:
 
-`MATRICULA;NOME;NASCIMENTO`
+`MATRICULA;NOME;NASCIMENTO;SECRETARIA`
 
 *   `MATRICULA`: Usado como **nome de usuário** (login) e para criar o **e-mail** no formato `matricula@trescoracoes.mg.gov.br`.
-*   `nome`: Nome completo do usuário. Será dividido em nome e sobrenome.
+*   `NOME`: Nome completo do usuário. Será dividido em nome e sobrenome.
 *   `NASCIMENTO`: Data de nascimento no formato `dd/mm/aaaa`. Usado para gerar a **senha** (apenas números) e integrar com o plugin de aniversariantes.
+*   `SECRETARIA`: Secretaria ou departamento do usuário. Salvo como metadado do perfil.
 
 ## Como Usar
 
@@ -34,7 +35,7 @@ O arquivo CSV deve conter um cabeçalho e as seguintes colunas, separadas por **
 
 Para garantir que o arquivo funcione corretamente, siga estes passos no Excel ou LibreOffice:
 
-1.  Crie uma planilha com 3 colunas na ordem: **Matrícula**, **Nome**, **Nascimento**.
+1.  Crie uma planilha com 4 colunas na ordem: **Matrícula**, **Nome**, **Nascimento**, **Secretaria**.
 2.  Preencha os dados (ex: Nascimento como `24/09/1989`).
 3.  Vá em **Arquivo > Salvar Como**.
 4.  Escolha o formato **CSV (separado por ponto e vírgula)** ou apenas **CSV**.
@@ -42,7 +43,9 @@ Para garantir que o arquivo funcione corretamente, siga estes passos no Excel ou
 
 **Exemplo de conteúdo do arquivo:**
 ```csv
-MATRICULA;NOME;NASCIMENTO
-10445;JOAO DA SILVA;26/01/1975
-21216;MARIA SOUZA;28/01/1981
+MATRICULA;NOME;NASCIMENTO;SECRETARIA
+10445;JOAO DA SILVA;26/01/1975;Secretaria Municipal de Educação
+21216;MARIA SOUZA;28/01/1981;Secretaria Municipal de Saúde
 ```
+
+> **Nota:** Se o usuário já existir no WordPress (mesma matrícula), o script **atualiza** os dados dele em vez de criar um duplicado.
