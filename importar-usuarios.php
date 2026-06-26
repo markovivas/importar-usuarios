@@ -247,13 +247,13 @@ add_filter('send_email_change_email', '__return_false');
 
             while (($linha = fgetcsv($handle, 0, ';')) !== false) {
 
-                // Verifica se a linha tem dados suficientes (mnimo 3 colunas)
-                if (empty($linha) || count($linha) < 3) {
+                // Verifica se a linha tem dados suficientes (mnimo 4 colunas)
+                if (empty($linha) || count($linha) < 4) {
                     continue;
                 }
 
-                // Ordem esperada das colunas: Matricula, Nome, Nascimento
-                list($matricula, $nome, $nascimento) = $linha;
+                // Ordem esperada das colunas: Matricula, Nome, Nascimento, Secretaria
+                list($matricula, $nome, $nascimento, $secretaria) = $linha;
                 $nascimento = trim($nascimento); // Remove espaos em branco para evitar erros no plugin
 
                 $senha = preg_replace('/\D/', '', $nascimento);
@@ -301,6 +301,11 @@ add_filter('send_email_change_email', '__return_false');
                     // Salva no banco de dados apenas se a data for válida
                     if (!empty($nascimento_formatado)) {
                         update_user_meta($user_id, 'data_nascimento', $nascimento_formatado);
+                    }
+
+                    // Salva a secretaria
+                    if (!empty(trim($secretaria))) {
+                        update_user_meta($user_id, 'secretaria', trim($secretaria));
                     }
 
                     echo '<div class="message success">';
